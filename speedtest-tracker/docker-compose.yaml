@@ -1,0 +1,21 @@
+services:
+  speedtest-tracker:
+    container_name: speedtest-tracker
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - APP_KEY=${APP_KEY}  # Generate an app key: https://speedtest-tracker.dev
+      - APP_URL=http://localhost
+      - DB_CONNECTION=sqlite
+      - SPEEDTEST_SCHEDULE=0 */3 * * *  # https://crontab.guru
+    ports:
+      - ${HTTP_PORT}:80
+      - ${HTTPS_PORT}:443
+    volumes:
+      - /home/ypei/libraries/docker/speedtest-tracker/data:/config
+      - /home/ypei/libraries/docker/speedtest-tracker/ssl-keys:/config/keys
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
