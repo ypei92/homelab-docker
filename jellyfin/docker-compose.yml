@@ -1,0 +1,25 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.9.11
+    container_name: jellyfin
+    restart: unless-stopped
+    env_file: .env
+    group_add:
+      - 107  # Group ID of UHD630 by running stat -c '%g' /dev/dri/renderD128
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    ports:
+      - ${HTTP_PORT}:8096  # http
+      - ${HTTPS_PORT}:8920  # https with certificate
+    volumes:
+      - /home/ypei/libraries/docker/jellyfin/config:/config
+      - /home/ypei/libraries/docker/jellyfin/cache:/cache
+      - type: bind
+        source: /mnt/pve-white/video
+        target: /media
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
