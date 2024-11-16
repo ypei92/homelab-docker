@@ -1,3 +1,3 @@
 # homelab-docker
 
-Docker compose files + config collection of my homelab.
+Docker compose files and configs of my homelab.
