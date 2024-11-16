@@ -1,0 +1,19 @@
+.env
+*bin
+*backup
+*cache
+*data
+*key
+*keys
+*logs
+*tokens
+*test_field
+
+# vim
+*.sw*
+
+# specifc
+jellyfin/config
+navidrome/config
+npm/letsencrypt
+portainer
