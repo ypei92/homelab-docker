@@ -1,0 +1,47 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/settings
+
+title: Shanlover's Homepage
+
+background:
+  image: /images/IMG_0482_extended2.jpg
+  blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+  saturate: 80 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+  opacity: 75 # 0-100
+
+headerStyle: boxed
+showStats: true
+statusStyle: dot
+useEqualHeights: true  # Make all cards the same height
+
+layout:
+  Hypervisor:
+    header: true
+    style: row
+    columns: 4
+  Docker:
+    header: true
+    style: row
+    columns: 4
+  Storage:
+    header: true
+    style: row
+    columns: 4
+  Media:
+    header: true
+    style: row
+    columns: 4
+  Networking:
+    header: true
+    style: row
+    columns: 4
+  Download:
+    header: true
+    style: row
+    columns: 4
+  Utility:
+    header: true
+    style: row
+    columns: 4

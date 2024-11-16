@@ -1,0 +1,210 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services
+
+- Hypervisor:
+    - pve-router:
+        icon: proxmox.svg
+        href: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+        description: Router
+        widget:
+            type: proxmox
+            url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+            username: "{{HOMEPAGE_VAR_PROXMOX_USER}}"
+            password: "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
+            node: pve-router
+    - pve-white:
+        icon: proxmox.svg
+        href: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+        description: Prod
+        widget:
+            type: proxmox
+            url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+            username: "{{HOMEPAGE_VAR_PROXMOX_USER}}"
+            password: "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
+            node: pve-white
+    - pve-black:
+        icon: proxmox.svg
+        href: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+        description: Dev
+        widget:
+            type: proxmox
+            url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+            username: "{{HOMEPAGE_VAR_PROXMOX_USER}}"
+            password: "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
+            node: pve-black
+
+- Docker:
+    - Portainer:
+        icon: portainer.svg
+        href: "{{HOMEPAGE_VAR_PORTAINER_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_PORTAINER_URL}}"
+        description: Docker Management
+        widget:
+            type: portainer
+            url: "{{HOMEPAGE_VAR_PORTAINER_URL}}"
+            env: "{{HOMEPAGE_VAR_PORTAINER_ENV}}"
+            key: "{{HOMEPAGE_VAR_PORTAINER_API_KEY}}"
+    - WatchTower:
+        icon: watchtower.svg
+        href: "{{HOMEPAGE_VAR_WATCHTOWER_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_WATCHTOWER_URL}}"
+        description: Docker Image Updater
+        widget:
+          type: watchtower
+          url: "{{HOMEPAGE_VAR_WATCHTOWER_METRIC}}"
+          key: "{{HOMEPAGE_VAR_WATCHTOWER_KEY}}"
+
+- Storage:
+    - DSM-7:
+        icon: synology-dsm.svg
+        href: "{{HOMEPAGE_VAR_DSM_PROD_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_DSM_PROD_URL}}"
+        description: pve-white
+        widget:
+            type: diskstation
+            url: "{{HOMEPAGE_VAR_DSM_PROD_URL}}"
+            username: remote-stats
+            password: "{{HOMEPAGE_VAR_DSM_PROD_STATS_PASSWORD}}"
+            volume: volume_1
+    - DSM-7 Dev:
+        icon: synology-dsm.svg
+        href: "{{HOMEPAGE_VAR_DSM_DEV_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_DSM_DEV_URL}}"
+        description: pve-black
+        widget:
+            type: diskstation
+            url: "{{HOMEPAGE_VAR_DSM_DEV_URL}}"
+            username: remote-stats
+            password: "{{HOMEPAGE_VAR_DSM_DEV_STATS_PASSWORD}}"
+            volume: volume_1
+    - TrueNAS Scale:
+        icon: truenas.svg
+        href: "{{HOMEPAGE_VAR_TRUENAS_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_TRUENAS_URL}}"
+        description: pve-black
+        widget:
+            type: truenas
+            url: "{{HOMEPAGE_VAR_TRUENAS_URL}}"
+            username: "{{HOMEPAGE_VAR_TRUENAS_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_TRUENAS_PASSWORD}}"
+            enablePools: true
+    - Nextcloud AIO:
+        icon: nextcloud.svg
+        href: "{{HOMEPAGE_VAR_NEXTCLOUD_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_NEXTCLOUD_URL}}"
+        description: File Sharing & Transfer
+        widget:
+            type: nextcloud
+            url: "{{HOMEPAGE_VAR_NEXTCLOUD_URL}}"
+            username: "{{HOMEPAGE_VAR_NEXTCLOUD_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_NEXTCLOUD_PASSWORD}}"
+
+- Media:
+    - Immich:
+        icon: immich.svg
+        href: "{{HOMEPAGE_VAR_IMMICH_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_IMMICH_URL}}"
+        description: Photo Management
+        widget:
+            type: immich
+            url: "{{HOMEPAGE_VAR_IMMICH_URL}}"
+            key: "{{HOMEPAGE_VAR_IMMICH_KEY}}"
+            version: 2 # optional, default is 1
+    - Jellyfin:
+        icon: jellyfin.svg
+        href: "{{HOMEPAGE_VAR_JELLYFIN_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_JELLYFIN_URL}}"
+        description: Media System
+        widget:
+            type: jellyfin
+            url: "{{HOMEPAGE_VAR_JELLYFIN_URL}}"
+            key: "{{HOMEPAGE_VAR_JELLYFIN_KEY}}"
+            enableBlocks: true # optional, defaults to false
+            enableNowPlaying: true # optional, defaults to true
+            enableUser: true # optional, defaults to false
+            showEpisodeNumber: true # optional, defaults to false
+            expandOneStreamToTwoRows: false # optional, defaults to true
+    - Navidrome:
+        icon: navidrome.svg
+        href: "{{HOMEPAGE_VAR_NAVIDROME_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_NAVIDROME_URL}}"
+        description: Music Management
+        widget:
+            type: navidrome
+            url: "{{HOMEPAGE_VAR_NAVIDROME_URL}}"
+            user: "{{HOMEPAGE_VAR_NAVIDROME_USER}}"
+            token: "{{HOMEPAGE_VAR_NAVIDROME_TOKEN}}"
+            salt: "{{HOMEPAGE_VAR_NAVIDROME_SALT}}"
+
+- Networking:
+    - iStoreOS:
+        icon: openwrt.svg
+        href: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
+        description: iStoreOS
+        widget:
+            type: openwrt
+            url: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
+            username: "{{HOMEPAGE_VAR_OPENWRT_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_OPENWRT_PASSWORD}}"
+            interfaceName: eth1 # optional
+    - NPM:
+        icon: nginx-proxy-manager.svg
+        href: "{{HOMEPAGE_VAR_NPM_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_NPM_URL}}"
+        description: Nginx Proxy Manager
+        widget:
+            type: npm
+            url: "{{HOMEPAGE_VAR_NPM_URL}}"
+            username: "{{HOMEPAGE_VAR_NPM_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_NPM_PASSWORD}}"
+    - Speedtest Tracker:
+        icon: speedtest-tracker.png
+        href: "{{HOMEPAGE_VAR_SPEEDTEST_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_SPEEDTEST_URL}}"
+        description: Speedtest Tracker
+        widget:
+            type: speedtest
+            url: "{{HOMEPAGE_VAR_SPEEDTEST_URL}}"
+            bitratePrecision: 3 # optional, default is 0
+
+- Download:
+    - qBittorrent:
+        icon: qbittorrent.svg
+        href: "{{HOMEPAGE_VAR_QB_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_QB_URL}}"
+        description: BitTorrent Client
+        widget:
+            type: qbittorrent
+            url: "{{HOMEPAGE_VAR_QB_URL}}"
+            username: "{{HOMEPAGE_VAR_QB_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_QB_PASSWORD}}"
+    - BaiduYun:
+        icon: /images/baiduyun.png
+        href: "{{HOMEPAGE_VAR_BAIDUYUN_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_BAIDUYUN_URL}}"
+        description: BaiduYun Client
+    - AriaNg:
+        icon: ariang.png
+        href: "{{HOMEPAGE_VAR_ARIANG_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_ARIANG_URL}}"
+        description: Aria2 Client
+
+- Utility:
+    - Music Tag Web:
+        icon: /images/music-tag-web.png
+        href: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
+        description: Online Music Tag Editor/Scraper
+
+
+## Backlog
+# Home Assistant
+# Frigate
+# Adguard home
+# Authentik
+# Uptime Kuma
