@@ -8,6 +8,7 @@
 *logs
 *tokens
 *test_field
+*.tar.gz
 
 # vim
 *.sw*
@@ -15,5 +16,7 @@
 # specifc
 jellyfin/config
 navidrome/config
+aria2/config
+qbittorrent/config
 npm/letsencrypt
 portainer

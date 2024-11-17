@@ -1,0 +1,19 @@
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/Los_Angeles
+      - WEBUI_PORT=${WEBUI_PORT}
+      - TORRENTING_PORT=${LISTEN_PORT}
+    volumes:
+      - /home/ypei/libraries/docker/qbittorrent/config:/config
+      - /mnt/pve-white/shared/downloads/qbittorrent:/downloads
+    ports:
+      - ${WEBUI_PORT}:${WEBUI_PORT}
+      - ${LISTEN_PORT}:${LISTEN_PORT}
+      - ${LISTEN_PORT}:${LISTEN_PORT}/udp
