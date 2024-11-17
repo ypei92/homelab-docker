@@ -17,3 +17,5 @@ services:
       - ${WEBUI_PORT}:${WEBUI_PORT}
       - ${LISTEN_PORT}:${LISTEN_PORT}
       - ${LISTEN_PORT}:${LISTEN_PORT}/udp
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

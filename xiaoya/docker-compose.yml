@@ -1,6 +1,6 @@
 services:
   xiaoya:
-    image: 'xiaoyaliu/alist:latest'
+    image: xiaoyaliu/alist:latest
     container_name: xiaoya_alist
     restart: unless-stopped
     env_file: .env

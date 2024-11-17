@@ -4,7 +4,7 @@ services:
     container_name: jellyfin
     restart: unless-stopped
     env_file: .env
-    user: "${PUID}:${PGID}"
+    user: ${PUID}:${PGID}
     group_add:
       - 107  # Group ID of UHD630 by running stat -c '%g' /dev/dri/renderD128
     devices:

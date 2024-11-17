@@ -1,10 +1,10 @@
 services:
   baidunetdisk-crossover-vnc:
-    image: "johnshine/baidunetdisk-crossover-vnc:latest"
+    image: johnshine/baidunetdisk-crossover-vnc:latest
     container_name: baiduyun
     restart: unless-stopped
     env_file: .env
-    user: "${PUID}:${PGID}"
+    user: ${PUID}:${PGID}
     ports:
       - ${WEBUI_PORT}:6080
       - ${VNC_PORT}:5901
