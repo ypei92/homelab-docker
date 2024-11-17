@@ -1,0 +1,33 @@
+services:
+  baidunetdisk-crossover-vnc:
+    image: "johnshine/baidunetdisk-crossover-vnc:latest"
+    container_name: baiduyun
+    restart: unless-stopped
+    env_file: .env
+    user: "${PUID}:${PGID}"
+    ports:
+      - ${WEBUI_PORT}:6080
+      - ${VNC_PORT}:5901
+    volumes:
+      - /mnt/pve-white/shared/downloads/baiduyun:/home/baidu/baidunetdiskdownload
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+## This newer but freeze frequently, try later
+#services:
+#  baidunetdisk:
+#    image: "johngong/baidunetdisk:latest"
+#    container_name: baiduyun
+#    restart: unless-stopped
+#    env_file: .env
+#    environment:
+#      - USER_ID=${PUID}
+#      - GROUP_ID=${PGID}
+#    ports:
+#      - ${WEBUI_PORT}:5800
+#      - ${VNC_PORT}:5900
+#    volumes:
+#      - /home/ypei/libraries/docker/baiduyun/config:/config
+#      - /mnt/pve-white/shared/downloads/baiduyun:/config/baidunetdiskdownload
+#    labels:
+#      - "com.centurylinklabs.watchtower.enable=true"
