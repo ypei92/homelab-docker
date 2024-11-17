@@ -200,6 +200,11 @@
         href: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
         description: Online Music Tag Editor/Scraper
+    - Qiandao:
+        icon: /images/qiandao.png
+        href: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
+        description: Qiaodao Automation
 
 
 ## Backlog

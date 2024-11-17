@@ -6,6 +6,7 @@
 *key
 *keys
 *logs
+*redis
 *tokens
 *test_field
 *.tar.gz
@@ -18,5 +19,6 @@ jellyfin/config
 navidrome/config
 aria2/config
 qbittorrent/config
+qiandao/config
 npm/letsencrypt
 portainer
