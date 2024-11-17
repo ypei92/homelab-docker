@@ -1,0 +1,47 @@
+services:
+  aria2-pro:
+    image: "p3terx/aria2-pro:latest"
+    container_name: aria2-pro
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK_SET=022
+      - RPC_SECRET=${RPC_SECRET}
+      - RPC_PORT=6800
+      - LISTEN_PORT=6888
+      - DISK_CACHE=64M
+      - IPV6_MODE=false
+      - UPDATE_TRACKERS=true
+      # Update tracker: bash <(curl -fsSL git.io/tracker.sh)
+      - CUSTOM_TRACKER_URL=
+      - TZ=America/Los_Angeles
+    volumes:
+      - /home/ypei/libraries/docker/aria2/config:/config
+      - /mnt/pve-white/shared/downloads/aria2:/downloads
+    ports:
+      - ${RPC_PORT}:6800
+      - ${LISTEN_PORT}:6888
+      - ${LISTEN_PORT}:6888/udp
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m  # limit log size to 1MB
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  ariang:
+    image: "p3terx/ariang:latest"
+    container_name: ariang
+    restart: unless-stopped
+    env_file: .env
+    command: --port 6880 --ipv6
+    ports:
+      - ${ARIANG_PORT}:6880
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m  # limit log size to 1MB
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
