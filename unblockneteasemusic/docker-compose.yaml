@@ -1,0 +1,15 @@
+services:
+  unblockneteasemusic:
+    image: pan93412/unblock-netease-music-enhanced:release
+    container_name: unblockneteasemusic
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - ENABLE_FLAC=true
+      - ENABLE_LOCAL_VIP=true
+      - BLOCK_ADS=true
+    ports:
+      - ${HTTP_PORT}:8080
+      - ${HTTPS_PORT}:8081
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
