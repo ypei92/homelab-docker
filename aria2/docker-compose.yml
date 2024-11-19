@@ -20,10 +20,12 @@ services:
     volumes:
       - /home/ypei/libraries/docker/aria2/config:/config
       - /mnt/pve-white/shared/downloads/aria2:/downloads
-    ports:
-      - ${RPC_PORT}:6800
-      - ${LISTEN_PORT}:6888
-      - ${LISTEN_PORT}:6888/udp
+    # Choose from 1. VPN (Gluetun) or 2. normal mode
+    network_mode: "container:gluetun"
+    # ports:
+    #   - ${RPC_PORT}:6800
+    #   - ${LISTEN_PORT}:6888
+    #   - ${LISTEN_PORT}:6888/udp
     logging:
       driver: json-file
       options:
@@ -36,9 +38,11 @@ services:
     container_name: ariang
     restart: unless-stopped
     env_file: .env
+    # Choose from 1. VPN (Gluetun) or 2. normal mode
+    network_mode: "container:gluetun"
+    # ports:
+    #   - ${ARIANG_PORT}:6880
     command: --port 6880 --ipv6
-    ports:
-      - ${ARIANG_PORT}:6880
     logging:
       driver: json-file
       options:

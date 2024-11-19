@@ -1,0 +1,31 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    restart: unless-stopped
+    env_file: .env
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      # qBittorrent
+      - ${QB_WEBUI_PORT}:${QB_WEBUI_PORT}
+      - ${QB_LISTEN_PORT}:${QB_LISTEN_PORT}
+      - ${QB_LISTEN_PORT}:${QB_LISTEN_PORT}/udp
+      # aria-pro
+      - ${ARIA2_RPC_PORT}:6800
+      - ${ARIA2_LISTEN_PORT}:6888
+      - ${ARIA2_LISTEN_PORT}:6888/udp
+      - ${ARIANG_PORT}:6880
+    environment:
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=wireguard
+      - WIREGUARD_ENDPOINT_IP=${WIREGUARD_ENDPOINT_IP}
+      - WIREGUARD_ENDPOINT_PORT=${WIREGUARD_ENDPOINT_PORT}
+      - WIREGUARD_PUBLIC_KEY=${WIREGUARD_PUBLIC_KEY}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

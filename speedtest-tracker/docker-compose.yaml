@@ -8,7 +8,7 @@ services:
       - PUID=$PUID
       - PGID=$PGID
       - APP_KEY=${APP_KEY}  # Generate an app key: https://speedtest-tracker.dev
-      - APP_URL=http://localhost
+      - APP_TIMEZONE=America/Los_Angeles
       - DB_CONNECTION=sqlite
       - SPEEDTEST_SCHEDULE=0 */3 * * *  # https://crontab.guru
     ports:

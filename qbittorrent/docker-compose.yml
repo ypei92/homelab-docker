@@ -13,9 +13,11 @@ services:
     volumes:
       - /home/ypei/libraries/docker/qbittorrent/config:/config
       - /mnt/pve-white/shared/downloads/qbittorrent:/downloads
-    ports:
-      - ${WEBUI_PORT}:${WEBUI_PORT}
-      - ${LISTEN_PORT}:${LISTEN_PORT}
-      - ${LISTEN_PORT}:${LISTEN_PORT}/udp
+    # Choose from 1. VPN (Gluetun) or 2. normal mode
+    network_mode: "container:gluetun"
+    # ports:
+    #   - ${WEBUI_PORT}:${WEBUI_PORT}
+    #   - ${LISTEN_PORT}:${LISTEN_PORT}
+    #   - ${LISTEN_PORT}:${LISTEN_PORT}/udp
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
