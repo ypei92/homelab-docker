@@ -171,6 +171,14 @@
             type: speedtest
             url: "{{HOMEPAGE_VAR_SPEEDTEST_URL}}"
             bitratePrecision: 3 # optional, default is 0
+    - Gluetun:
+        icon: gluetun.png
+        siteMonitor: "{{HOMEPAGE_VAR_GLUETUN_URL}}"
+        description: VPN Client for Containers
+        widget:
+          type: gluetun
+          url: "{{HOMEPAGE_VAR_GLUETUN_URL}}"
+          key: "{{HOMEPAGE_VAR_GLUETUN_API_KEY}}"
 
 - Download:
     - qBittorrent:

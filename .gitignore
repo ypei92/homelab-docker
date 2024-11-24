@@ -21,4 +21,5 @@ aria2/config
 qbittorrent/config
 qiandao/config
 npm/letsencrypt
+gluetun/auth
 portainer
