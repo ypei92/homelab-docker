@@ -1,3 +1,6 @@
+# This Aria2 stack does not use VPN
+# Use this file only when Gluetun is no setup
+
 services:
   aria2-pro:
     image: p3terx/aria2-pro:latest
@@ -20,12 +23,11 @@ services:
     volumes:
       - /home/ypei/libraries/docker/aria2/config:/config
       - /mnt/pve-white/shared/downloads/aria2:/downloads
-    # Choose from 1. VPN (Gluetun) or 2. normal mode
-    network_mode: "container:gluetun"
-    # ports:
-    #   - ${RPC_PORT}:6800
-    #   - ${LISTEN_PORT}:6888
-    #   - ${LISTEN_PORT}:6888/udp
+    # network_mode: "container:gluetun"  # in case use Gluetun, comment ports
+    ports:
+      - ${RPC_PORT}:6800
+      - ${LISTEN_PORT}:6888
+      - ${LISTEN_PORT}:6888/udp
     logging:
       driver: json-file
       options:
@@ -38,10 +40,9 @@ services:
     container_name: ariang
     restart: unless-stopped
     env_file: .env
-    # Choose from 1. VPN (Gluetun) or 2. normal mode
-    network_mode: "container:gluetun"
-    # ports:
-    #   - ${ARIANG_PORT}:6880
+    # network_mode: "container:gluetun"  # in case use Gluetun, comment ports
+    ports:
+      - ${ARIANG_PORT}:6880
     command: --port 6880 --ipv6
     logging:
       driver: json-file
