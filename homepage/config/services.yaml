@@ -213,11 +213,3 @@
         href: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
         description: Qiaodao Automation
-
-
-## Backlog
-# Home Assistant
-# Frigate
-# Adguard home
-# Authentik
-# Uptime Kuma
