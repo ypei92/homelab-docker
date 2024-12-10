@@ -92,7 +92,7 @@
             username: "{{HOMEPAGE_VAR_TRUENAS_USERNAME}}"
             password: "{{HOMEPAGE_VAR_TRUENAS_PASSWORD}}"
             enablePools: true
-    - Nextcloud AIO:
+    - Nextcloud:
         icon: nextcloud.svg
         href: "{{HOMEPAGE_VAR_NEXTCLOUD_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_NEXTCLOUD_URL}}"
