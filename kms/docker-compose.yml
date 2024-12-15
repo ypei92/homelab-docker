@@ -1,0 +1,10 @@
+services:
+  kms:
+    image: p3terx/kms
+    container_name: kms
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - ${SERVER_PORT}:1688
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
