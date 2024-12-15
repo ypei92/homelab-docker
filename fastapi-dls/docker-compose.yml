@@ -1,0 +1,20 @@
+services:
+  dls:
+    image: collinwebdesigns/fastapi-dls:latest
+    container_name: "fastapi-dls"
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DLS_URL: ${DLS_URL} # REQUIRED, change to your ip or hostname
+      DLS_PORT: ${DLS_PORT}
+      LEASE_EXPIRE_DAYS: 90
+      DATABASE: sqlite:////app/database/db.sqlite
+      TZ: "America/Los_Angeles"
+      DEBUG: "false"
+    ports:
+      - ${DLS_PORT}:443  # internal port is always 443
+    volumes:
+      - /home/ypei/libraries/docker/fastapi-dls/cert:/app/cert
+      - /home/ypei/libraries/docker/fastapi-dls/db:/app/database
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

@@ -2,7 +2,9 @@
 *bin
 *backup
 *cache
+*cert
 *data
+*db
 *key
 *keys
 *logs

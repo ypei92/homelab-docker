@@ -253,6 +253,10 @@
         href: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
         description: Qiaodao Automation
+    - FastAPI-DLS:
+        icon: si-nvidia-#76B900
+        siteMonitor: "{{HOMEPAGE_VAR_FASTAPI_DLS_URL}}"
+        description: Delegated License Service for Nvidia vGPU
     - UnblockNetEaseMusic:
         icon: si-neteasecloudmusic-#D43C33
         description: Unblock NetEase Music Service
