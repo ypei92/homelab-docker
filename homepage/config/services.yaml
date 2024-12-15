@@ -203,13 +203,29 @@
         description: Aria2 Client
 
 - Utility:
+    - Vaultwarden:
+        icon: vaultwarden.svg
+        href: "{{HOMEPAGE_VAR_VAULTWARDEN_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_VAULTWARDEN_URL}}"
+        description: Password Manager
     - Music Tag Web:
         icon: /images/music-tag-web.png
         href: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
         description: Online Music Tag Editor/Scraper
+    - Xiaoya:
+        icon: alist.svg
+        href: "{{HOMEPAGE_VAR_XIAOYA_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_XIAOYA_URL}}"
+        description: Xiaoya Alist
     - Qiandao:
         icon: /images/qiandao.png
         href: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
         description: Qiaodao Automation
+    - UnblockNetEaseMusic:
+        icon: si-neteasecloudmusic-#D43C33
+        description: Unblock NetEase Music Service
+    - KMS Server:
+        icon: microsoft-todo.png
+        description: Local Microsoft KMS Server
