@@ -179,6 +179,36 @@
           type: gluetun
           url: "{{HOMEPAGE_VAR_GLUETUN_URL}}"
           key: "{{HOMEPAGE_VAR_GLUETUN_API_KEY}}"
+    - WireGuard-Ampere:
+        icon: wireguard.svg
+        href: "{{HOMEPAGE_VAR_WIREGUARD_AMPERE_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_WIREGUARD_AMPERE_URL}}"
+        description: WireGuard VPN Server on OCI Ampere
+        widget:
+          type: wgeasy
+          url: "{{HOMEPAGE_VAR_WIREGUARD_AMPERE_URL}}"
+          password: "{{HOMEPAGE_VAR_WIREGUARD_AMPERE_PASSWORD}}"
+          threshold: 2 # optional
+    - WireGuard-AMD-0:
+        icon: wireguard.svg
+        href: "{{HOMEPAGE_VAR_WIREGUARD_AMD0_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_WIREGUARD_AMD0_URL}}"
+        description: WireGuard VPN Server on OCI AMD-0
+        widget:
+          type: wgeasy
+          url: "{{HOMEPAGE_VAR_WIREGUARD_AMD0_URL}}"
+          password: "{{HOMEPAGE_VAR_WIREGUARD_AMD0_PASSWORD}}"
+          threshold: 2 # optional
+    - WireGuard-AMD-1:
+        icon: wireguard.svg
+        href: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_URL}}"
+        description: WireGuard VPN Server on OCI AMD-1
+        widget:
+          type: wgeasy
+          url: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_URL}}"
+          password: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_PASSWORD}}"
+          threshold: 2 # optional
 
 - Download:
     - qBittorrent:
