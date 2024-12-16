@@ -243,8 +243,13 @@
         href: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
         description: Online Music Tag Editor/Scraper
-    - Xiaoya:
+    - Alist:
         icon: alist.svg
+        href: "{{HOMEPAGE_VAR_ALIST_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_ALIST_URL}}"
+        description: Cloud Storages in One Place
+    - Xiaoya:
+        icon: si-alibabacloud-#FF6A00
         href: "{{HOMEPAGE_VAR_XIAOYA_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_XIAOYA_URL}}"
         description: Xiaoya Alist
