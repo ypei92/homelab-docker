@@ -266,5 +266,5 @@
         icon: si-neteasecloudmusic-#D43C33
         description: Unblock NetEase Music Service
     - KMS Server:
-        icon: microsoft-todo.png
+        icon: microsoft-to-do.svg
         description: Local Microsoft KMS Server
