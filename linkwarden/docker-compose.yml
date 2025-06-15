@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: linkwarden-postgres
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - /home/ypei/libraries/docker/linkwarden/pgdata:/var/lib/postgresql/data
+
+  linkwarden:
+    image: ghcr.io/linkwarden/linkwarden:latest
+    container_name: linkwarden
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
+    ports:
+      - ${WEBUI_PORT}:3000
+    volumes:
+      - /home/ypei/libraries/docker/linkwarden/data:/data/data
+    depends_on:
+      - postgres
+      - meilisearch
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.12.8
+    container_name: linkwarden-meilisearch
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - /home/ypei/libraries/docker/linkwarden/meili_data:/meili_data
