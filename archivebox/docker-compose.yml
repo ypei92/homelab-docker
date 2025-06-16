@@ -19,7 +19,8 @@ services:
         ports:
             - ${WEBUI_PORT}:8000
         volumes:
-            - ${DATA_PATH}:/data
+            - ${SMB_PATH}:/data
+            - /home/ypei/libraries/docker/archivebox/chrome_profile/personas/Default:/data/personas/Default
         labels:
             - "com.centurylinklabs.watchtower.enable=true"
         environment:
@@ -35,6 +36,8 @@ services:
             - SEARCH_BACKEND_PASSWORD=${SONIC_PASSWORD}
             - PUID=${PUID}                      # set to your host user's UID & GID if you encounter permissions issues
             - PGID=${PGID}                      # UID/GIDs lower than 500 may clash with system uids and are not recommended
+            - CHROME_USER_DATA_DIR=/data/personas/Default/chrome_profile
+            # - DISPLAY=novnc:0.0
             # For options below, it's better to set in data/ArchiveBox.conf or use `docker compose run archivebox config --set SOME_KEY=someval` instead of setting here:
             # - MEDIA_MAX_SIZE=750m             # increase this filesize limit to allow archiving larger audio/video files
             # - TIMEOUT=60                      # increase this number to 120+ seconds if you see many slow downloads timing out
@@ -73,7 +76,7 @@ services:
     #         - SEARCH_BACKEND_HOST_NAME=sonic
     #         - SEARCH_BACKEND_PASSWORD=${SONIC_PASSWORD}
     #     volumes:
-    #         - ${DATA_PATH}:/data
+    #         - ${SMB_PATH}:/data
     #     # cpus: 2                               # uncomment / edit these values to limit scheduler container resource consumption
     #     # mem_limit: 2048m
     #     # restart: always
@@ -99,7 +102,7 @@ services:
             - PGID=${PGID}
         volumes:
             #- ./sonic.cfg:/etc/sonic.cfg:ro    # mount to customize: https://raw.githubusercontent.com/ArchiveBox/ArchiveBox/stable/etc/sonic.cfg
-            - ${DATA_PATH}/sonic:/var/lib/sonic/store
+            - ${SMB_PATH}/sonic:/var/lib/sonic/store
 
 
     ### This optional container runs xvfb+noVNC so you can watch the ArchiveBox browser as it archives things,
@@ -107,20 +110,20 @@ services:
     # https://github.com/ArchiveBox/ArchiveBox/wiki/Chromium-Install#setting-up-a-chromium-user-profile
     # https://github.com/ArchiveBox/ArchiveBox/wiki/Chromium-Install#docker-vnc-setup
 
-    novnc:
-        image: theasp/novnc:latest
-        container_name: archivebox-novnc
-        restart: unless-stopped
-        labels:
-            - "com.centurylinklabs.watchtower.enable=true"
-        environment:
-            - DISPLAY_WIDTH=1920
-            - DISPLAY_HEIGHT=1080
-            - RUN_XTERM=no
-        ports:
-            # to view/control ArchiveBox's browser, visit: http://127.0.0.1:8080/vnc.html
-            # restricted to access from localhost by default because it has no authentication
-            - 127.0.0.1:8080:8080
+    # novnc:
+    #     image: theasp/novnc:latest
+    #     container_name: archivebox-novnc
+    #     restart: unless-stopped
+    #     labels:
+    #         - "com.centurylinklabs.watchtower.enable=true"
+    #     environment:
+    #         - DISPLAY_WIDTH=1920
+    #         - DISPLAY_HEIGHT=1080
+    #         - RUN_XTERM=no
+    #     ports:
+    #         # to view/control ArchiveBox's browser, visit: http://127.0.0.1:8080/vnc.html
+    #         # restricted to access from localhost by default because it has no authentication
+    #         - ${VNC_PORT}:8080
 
 
     ### Example: Put Nginx in front of the ArchiveBox server for SSL termination and static file serving.

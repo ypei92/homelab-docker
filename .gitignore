@@ -27,4 +27,5 @@ npm/letsencrypt
 gluetun/auth
 karakeep/meilisearch
 archivebox/wg-server.conf
+archivebox/chrome_profile
 portainer
