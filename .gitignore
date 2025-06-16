@@ -25,4 +25,6 @@ qbittorrent/config
 qiandao/config
 npm/letsencrypt
 gluetun/auth
+karakeep/meilisearch
+archivebox/wg-server.conf
 portainer
