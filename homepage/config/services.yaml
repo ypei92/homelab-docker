@@ -253,11 +253,6 @@
         href: "{{HOMEPAGE_VAR_XIAOYA_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_XIAOYA_URL}}"
         description: Xiaoya Alist
-    - Qiandao:
-        icon: /images/qiandao.png
-        href: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
-        siteMonitor: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
-        description: Qiaodao Automation
     - FastAPI-DLS:
         icon: si-nvidia-#76B900
         siteMonitor: "{{HOMEPAGE_VAR_FASTAPI_DLS_URL}}"
@@ -268,3 +263,12 @@
     - KMS Server:
         icon: microsoft-to-do.svg
         description: Local Microsoft KMS Server
+    - ArchiveBox:
+        icon: archivebox.png
+        href: "{{HOMEPAGE_VAR_ARCHIVEBOX_URL}}"
+        description: ArchiveBox
+    - Qiandao:
+        icon: /images/qiandao.png
+        href: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
+        description: Qiaodao Automation
