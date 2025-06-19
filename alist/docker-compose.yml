@@ -13,5 +13,3 @@ services:
       - ${PORT}:5244
     volumes:
       - /home/ypei/libraries/docker/alist/data:/opt/alist/data
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
