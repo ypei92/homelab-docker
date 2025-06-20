@@ -233,16 +233,15 @@
         description: Aria2 Client
 
 - Utility:
+    - SearXNG:
+        icon: searxng.png
+        href: "{{HOMEPAGE_VAR_SEARXNG_URL}}"
+        description: Privacy-focused Aggregated Browser
     - Vaultwarden:
         icon: vaultwarden.svg
         href: "{{HOMEPAGE_VAR_VAULTWARDEN_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_VAULTWARDEN_URL}}"
         description: Password Manager
-    - Music Tag Web:
-        icon: /images/music-tag-web.png
-        href: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
-        siteMonitor: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
-        description: Online Music Tag Editor/Scraper
     - Alist:
         icon: alist.svg
         href: "{{HOMEPAGE_VAR_ALIST_URL}}"
@@ -253,18 +252,26 @@
         href: "{{HOMEPAGE_VAR_XIAOYA_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_XIAOYA_URL}}"
         description: Xiaoya Alist
+    - Music Tag Web:
+        icon: /images/music-tag-web.png
+        href: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
+        description: Online Music Tag Editor/Scraper
+    - Omni-tools:
+        icon: sh-omnitools.svg
+        siteMonitor: "{{HOMEPAGE_VAR_OMNITOOLS_URL}}"
+        href: "{{HOMEPAGE_VAR_OMNITOOLS_URL}}"
+        description: Handy tools for occasionally use
     - FastAPI-DLS:
         icon: si-nvidia-#76B900
         siteMonitor: "{{HOMEPAGE_VAR_FASTAPI_DLS_URL}}"
         description: Delegated License Service for Nvidia vGPU
-    - UnblockNetEaseMusic:
-        icon: si-neteasecloudmusic-#D43C33
-        description: Unblock NetEase Music Service
     - KMS Server:
         icon: microsoft-to-do.svg
         description: Local Microsoft KMS Server
     - ArchiveBox:
         icon: archivebox.png
+        siteMonitor: "{{HOMEPAGE_VAR_ARCHIVEBOX_URL}}"
         href: "{{HOMEPAGE_VAR_ARCHIVEBOX_URL}}"
         description: ArchiveBox
     - Qiandao:
@@ -272,3 +279,6 @@
         href: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_QIANDAO_URL}}"
         description: Qiaodao Automation
+    - UnblockNetEaseMusic:
+        icon: si-neteasecloudmusic-#D43C33
+        description: Unblock NetEase Music Service
