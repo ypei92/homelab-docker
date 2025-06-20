@@ -1,0 +1,10 @@
+services:
+  omni-tools:
+    image: iib0011/omni-tools:latest
+    container_name: omni-tools
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - ${PORT}:80
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
