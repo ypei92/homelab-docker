@@ -2,14 +2,14 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/settings
 
-title: Shanlover's Homepage
+title: Yan Pei's Homepage
 
-background:
-  image: /images/IMG_0482_extended2.jpg
-  blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-  saturate: 80 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
-  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
-  opacity: 75 # 0-100
+# background:
+#   image: /images/IMG_0482_extended2.jpg
+#   blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+#   saturate: 80 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+#   brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+#   opacity: 75 # 0-100
 
 headerStyle: boxed
 showStats: true
