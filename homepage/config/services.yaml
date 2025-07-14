@@ -171,6 +171,14 @@
             type: speedtest
             url: "{{HOMEPAGE_VAR_SPEEDTEST_URL}}"
             bitratePrecision: 3 # optional, default is 0
+    - ChangeDetection.io:
+        icon: changedetection.svg
+        siteMonitor: "{{HOMEPAGE_VAR_CHANGEDETECTION_URL}}"
+        description: Website Change Detector
+        widget:
+          type: changedetectionio
+          url: "{{HOMEPAGE_VAR_CHANGEDETECTION_URL}}"
+          key: "{{HOMEPAGE_VAR_CHANGEDETECTION_API_KEY}}"
     - Gluetun:
         icon: gluetun.png
         siteMonitor: "{{HOMEPAGE_VAR_GLUETUN_URL}}"
@@ -209,7 +217,7 @@
           url: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_URL}}"
           password: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_PASSWORD}}"
           threshold: 2 # optional
-
+    
 - Download:
     - qBittorrent:
         icon: qbittorrent.svg
