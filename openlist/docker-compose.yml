@@ -1,0 +1,17 @@
+services:
+  openlist:
+    image: openlistteam/openlist:latest
+    container_name: openlist
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - /home/ypei/libraries/docker/openlist/data:/opt/openlist/data
+    ports:
+      - ${PORT}:5244
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=022
+      - TZ=America/Los_Angeles
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
