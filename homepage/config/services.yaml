@@ -250,10 +250,10 @@
         href: "{{HOMEPAGE_VAR_VAULTWARDEN_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_VAULTWARDEN_URL}}"
         description: Password Manager
-    - Alist:
-        icon: alist.svg
-        href: "{{HOMEPAGE_VAR_ALIST_URL}}"
-        siteMonitor: "{{HOMEPAGE_VAR_ALIST_URL}}"
+    - Openlist:
+        icon: openlist.svg
+        href: "{{HOMEPAGE_VAR_OPENLIST_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_OPENLIST_URL}}"
         description: Cloud Storages in One Place
     - Xiaoya:
         icon: si-alibabacloud-#FF6A00
