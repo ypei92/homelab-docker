@@ -266,7 +266,7 @@
         siteMonitor: "{{HOMEPAGE_VAR_MUSIC_TAG_URL}}"
         description: Online Music Tag Editor/Scraper
     - Omni-tools:
-        icon: sh-omnitools.svg
+        icon: omni-tools.png
         siteMonitor: "{{HOMEPAGE_VAR_OMNITOOLS_URL}}"
         href: "{{HOMEPAGE_VAR_OMNITOOLS_URL}}"
         description: Handy tools for occasionally use
