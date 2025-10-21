@@ -77,6 +77,7 @@ services:
     volumes:
       - /home/ypei/libraries/docker/aria2/config:/config
       - /mnt/pve-white/shared/downloads/aria2:/downloads
+      - /mnt/pve-white/shared/downloads/aria2/openlist_tmp:/opt/openlist/data/temp/aria2
     network_mode: "container:gluetun"  # in case use Gluetun, comment ports
     # ports:
     #   - ${RPC_PORT}:6800

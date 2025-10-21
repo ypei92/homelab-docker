@@ -28,5 +28,6 @@ gluetun/auth
 karakeep/meilisearch
 archivebox/wg-server.conf
 archivebox/chrome_profile
+openlist/token_backup.txt
 metube/db
 portainer
