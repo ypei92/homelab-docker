@@ -23,6 +23,8 @@ services:
       - ${ARIA2_LISTEN_PORT}:6888/udp
       - ${ARIANG_PORT}:6880
     environment:
+      - FIREWALL_OUTBOUND_SUBNETS=${DOCKER_HOST_SUBNET}
+      - DNS_PLAINTEXT_ADDRESS=${LOCAL_DNS}
       - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=wireguard
       - WIREGUARD_ENDPOINT_IP=${WIREGUARD_ENDPOINT_IP}
