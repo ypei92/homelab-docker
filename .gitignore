@@ -30,4 +30,6 @@ archivebox/wg-server.conf
 archivebox/chrome_profile
 openlist/token_backup.txt
 metube/db
+traefik/acme.json
+traefik/cf-token
 portainer
