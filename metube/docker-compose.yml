@@ -1,7 +1,7 @@
 services:
   metube:
     image: ghcr.io/alexta69/metube:latest
-    container_name: metube
+    container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     env_file: .env
     environment:
@@ -11,10 +11,27 @@ services:
       AUDIO_DOWNLOAD_DIR: /downloads/audio-only
       DELETE_FILE_ON_TRASHCAN: true
       DEFAULT_OPTION_PLAYLIST_STRICT_MODE: true
-    ports:
-      - ${WEBUI_PORT}:8081
+    networks:
+      - traefik_proxy
+    # ports:
+    #   - ${WEBUI_PORT}:8081
     volumes:
       - /mnt/pve-white/shared/downloads/metube:/downloads
       - /home/ypei/libraries/docker/metube/db:/downloads/.metube
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=8081"
+      - "traefik.http.routers.${CONTAINER_NAME}.entrypoints=http"
+      - "traefik.http.routers.${CONTAINER_NAME}.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.middlewares.${CONTAINER_NAME}-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.${CONTAINER_NAME}.middlewares=${CONTAINER_NAME}-https-redirect"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
+
+networks:
+  traefik_proxy:
+    external: true
