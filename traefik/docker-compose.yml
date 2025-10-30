@@ -1,7 +1,7 @@
 services:
   traefik:
     image: traefik:latest
-    container_name: traefik
+    container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     env_file: .env
     security_opt:
@@ -9,9 +9,8 @@ services:
     secrets:
       - cf-token # the secret at the top of this file
     networks:
-       - traefik_proxy
-    ports:
-      # Traefik also support customized ports
+      - traefik_proxy
+    ports:  # Traefik also support customized ports
       - 80:80
       - 443:443
     environment:
@@ -21,26 +20,25 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /home/ypei/libraries/docker/traefik/traefik.yml:/traefik.yaml:ro
-      # - /home/ypei/libraries/docker/traefik/config.yml:/config.yaml:ro
+      - /home/ypei/libraries/docker/traefik/traefik.yml:/traefik.yml:ro
+      - /home/ypei/libraries/docker/traefik/config.yml:/config.yml:ro
       - /home/ypei/libraries/docker/traefik/acme.json:/acme.json
       - /home/ypei/libraries/docker/traefik/logs:/var/log/traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.routers.traefik.rule=Host(`traefik-internal.nerdytechie.net`)"
+      - "traefik.http.routers.${CONTAINER_NAME}.entrypoints=http"
+      - "traefik.http.routers.${CONTAINER_NAME}.rule=Host(`traefik-internal.${DOMAIN}`)"
+      - "traefik.http.middlewares.${CONTAINER_NAME}-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.${CONTAINER_NAME}.middlewares=${CONTAINER_NAME}-https-redirect"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`traefik-internal.${DOMAIN}`)"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
-      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-      - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.rule=Host(`traefik-internal.nerdytechie.net`)"
-      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
-      - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].main=nerdytechie.net"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.nerdytechie.net"
-      - "traefik.http.routers.traefik-secure.service=api@internal"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.domains[0].main=${DOMAIN}"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.domains[0].sans=*.${DOMAIN}"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=api@internal"
 
 secrets:
   cf-token:
@@ -48,4 +46,4 @@ secrets:
 
 networks:
   traefik_proxy:
-    external: true  # need to create manually
+    external: true
