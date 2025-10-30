@@ -1,13 +1,15 @@
 services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
+    container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     env_file: .env
     environment:
       PUID: $PUID
       PGID: $PGID
       HOMEPAGE_ALLOWED_HOSTS: ${HOMEPAGE_ALLOWED_HOSTS}
+    networks:
+      - traefik_proxy
     ports:
       - ${WEBUI_PORT}:3000
     volumes:
@@ -15,3 +17,18 @@ services:
       - /home/ypei/libraries/docker/homepage/images:/app/public/images
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=3000"
+      - "traefik.http.routers.${CONTAINER_NAME}.entrypoints=http"
+      - "traefik.http.routers.${CONTAINER_NAME}.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.middlewares.${CONTAINER_NAME}-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.${CONTAINER_NAME}.middlewares=${CONTAINER_NAME}-https-redirect"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
+
+networks:
+  traefik_proxy:
+    external: true
