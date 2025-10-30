@@ -25,6 +25,7 @@ services:
       - /home/ypei/libraries/docker/traefik/acme.json:/acme.json
       - /home/ypei/libraries/docker/traefik/logs:/var/log/traefik
     labels:
+      - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
       - "traefik.http.routers.${CONTAINER_NAME}.entrypoints=http"
       - "traefik.http.routers.${CONTAINER_NAME}.rule=Host(`traefik-internal.${DOMAIN}`)"
