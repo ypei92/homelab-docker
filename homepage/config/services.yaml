@@ -95,7 +95,7 @@
     - Nextcloud:
         icon: nextcloud.svg
         href: "{{HOMEPAGE_VAR_NEXTCLOUD_URL}}"
-        siteMonitor: "{{HOMEPAGE_VAR_NEXTCLOUD_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_ODROID_XU4Q_URL}}"
         description: File Sharing & Transfer
         widget:
             type: nextcloud
@@ -217,7 +217,7 @@
           url: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_URL}}"
           password: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_PASSWORD}}"
           threshold: 2 # optional
-    
+
 - Download:
     - qBittorrent:
         icon: qbittorrent.svg

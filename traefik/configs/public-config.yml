@@ -1,0 +1,58 @@
+http:
+  #================================================================
+  # 3. MIDDLEWARES
+  #================================================================
+  middlewares:
+    # --- For Redirects ---
+    https-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    # --- For Security Headers ---
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    # --- For Security Whitelist ---
+    default-whitelist:
+      ipAllowList:
+        sourceRange:
+          - "10.0.0.0/8"
+          - "192.168.0.0/16"
+        # - "100.x.x.x/32"  # VPS proxy for netbird
+
+    # --- Chain to combine security headers and whitelist ---
+    secured:
+      chain:
+        middlewares:
+          - default-whitelist
+          - default-headers
+
+    # --- Middleware to redirect from / to /nextcloud ---
+    nextcloud-redirect-path:
+      redirectRegex:
+        regex: "^https://([^/]+)/?$"
+        replacement: "https://${1}/nextcloud"
+        permanent: true
+
+  #================================================================
+  # 4. SERVERS TRANSPORTS
+  #================================================================
+  serversTransports:
+    # For self-signed cert from dsm, pve
+    insecure-transport:
+      insecureSkipVerify: true
+
+    # Pending test
+    openlist-transport:
+      maxIdleConnsPerHost: 200

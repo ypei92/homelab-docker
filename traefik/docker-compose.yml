@@ -21,7 +21,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /home/ypei/libraries/docker/traefik/traefik.yml:/traefik.yml:ro
-      - /home/ypei/libraries/docker/traefik/config.yml:/config.yml:ro
+      - /home/ypei/libraries/docker/traefik/configs:/etc/traefik/configs:ro  # check .yaml or .yml per failure
       - /home/ypei/libraries/docker/traefik/acme.json:/acme.json
       - /home/ypei/libraries/docker/traefik/logs:/var/log/traefik
     labels:

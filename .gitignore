@@ -32,4 +32,5 @@ openlist/token_backup.txt
 metube/db
 traefik/acme.json
 traefik/cf-token
+traefik/configs/internal-config.yml
 portainer
