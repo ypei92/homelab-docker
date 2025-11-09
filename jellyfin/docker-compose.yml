@@ -1,7 +1,7 @@
 services:
   jellyfin:
     image: jellyfin/jellyfin:latest
-    container_name: jellyfin
+    container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     env_file: .env
     user: ${PUID}:${PGID}
@@ -9,6 +9,8 @@ services:
       - 107  # Group ID of UHD630 by running stat -c '%g' /dev/dri/renderD128
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
+    networks:
+      - traefik_proxy
     ports:
       - ${HTTP_PORT}:8096  # http
       - ${HTTPS_PORT}:8920  # https with certificate
@@ -24,3 +26,15 @@ services:
           memory: 2g
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=8096"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
+
+networks:
+  traefik_proxy:
+    external: true
