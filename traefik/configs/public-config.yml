@@ -3,12 +3,6 @@ http:
   # 3. MIDDLEWARES
   #================================================================
   middlewares:
-    # --- For Redirects ---
-    https-redirect:
-      redirectScheme:
-        scheme: https
-        permanent: true
-
     # --- For Security Headers ---
     default-headers:
       headers:

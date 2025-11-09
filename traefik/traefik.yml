@@ -5,22 +5,19 @@ api:
 entryPoints:
   http:
     address: ":80"
-    http:
-    #  middlewares: # uncomment if using CrowdSec - see my video
-    #    - crowdsec-bouncer@file
+    http:  # global http redirect
       redirections:
         entrypoint:
           to: https
           scheme: https
   https:
     address: ":443"
-    # http:
-    #  middlewares: # uncomment if using CrowdSec - see my video
-    #    - crowdsec-bouncer@file
-  # tcp:
-   # address: ":10000"
-  # apis:
-   # address: ":33073"
+    transport:
+      respondingTimeouts:
+        readTimeout: 600s
+        idleTimeout: 600s
+        writeTimeout: 600s
+
 serversTransport:
   insecureSkipVerify: true
 
@@ -36,8 +33,8 @@ providers:
 certificatesResolvers:
   cloudflare:
     acme:
-      caServer: https://acme-v02.api.letsencrypt.org/directory # production (default)
-      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging (testing)
+      # caServer: https://acme-v02.api.letsencrypt.org/directory # production (default)
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory # staging (testing)
       email: ypei.pve@gmail.com # Cloudflare email (or other provider)
       storage: acme.json
       dnsChallenge:
