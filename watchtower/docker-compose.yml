@@ -12,9 +12,26 @@ services:
       WATCHTOWER_REMOVE_VOLUMES: true
       WATCHTOWER_HTTP_API_TOKEN: ${WATCHTOWER_HTTP_API_TOKEN}
       WATCHTOWER_SCHEDULE: "0 0 1 * * 4"
+    networks:
+      - traefik_proxy
+    # ports:
+    #   - ${METRIC_PORT}:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - ${METRIC_PORT}:8080  # metric
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.watchtower-api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.watchtower-api.entrypoints=http"
+      - "traefik.http.routers.watchtower-api.rule=Host(`watchtower-api.${DOMAIN}`)"
+      - "traefik.http.middlewares.watchtower-api-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.watchtower-api.middlewares=watchtower-api-redirect"
+      - "traefik.http.routers.watchtower-api-secure.entrypoints=https"
+      - "traefik.http.routers.watchtower-api-secure.rule=Host(`watchtower-api.${DOMAIN}`)"
+      - "traefik.http.routers.watchtower-api-secure.tls=true"
+      - "traefik.http.routers.watchtower-api-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.watchtower-api-secure.service=watchtower-api"
+
+networks:
+  traefik_proxy:
+    external: true

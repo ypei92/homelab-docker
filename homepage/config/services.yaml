@@ -50,7 +50,6 @@
             key: "{{HOMEPAGE_VAR_PORTAINER_API_KEY}}"
     - WatchTower:
         icon: watchtower.svg
-        href: "{{HOMEPAGE_VAR_WATCHTOWER_URL}}"
         siteMonitor: "{{HOMEPAGE_VAR_WATCHTOWER_URL}}"
         description: Docker Image Updater
         widget:
