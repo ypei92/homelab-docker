@@ -1,16 +1,29 @@
 services:
-    changedetection:
-      image: ghcr.io/dgtlmoon/changedetection.io
-      container_name: changedetection
-      hostname: changedetection
-      restart: unless-stopped
-      env_file: .env
-      volumes:
-        - /home/ypei/libraries/docker/changedetection/data:/datastore
-      ports:
-        - ${WEBUI_PORT}:5000
-      labels:
-        - "com.centurylinklabs.watchtower.enable=true"
+  changedetection:
+    image: ghcr.io/dgtlmoon/changedetection.io
+    container_name: ${CONTAINER_NAME}
+    hostname: changedetection
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - /home/ypei/libraries/docker/changedetection/data:/datastore
+    networks:
+      - traefik_proxy
+    # ports:
+    #   - ${WEBUI_PORT}:5000
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=5000"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
+
+networks:
+  traefik_proxy:
+    external: true
 
 # Configurable proxy list support, see https://github.com/dgtlmoon/changedetection.io/wiki/Proxy-configuration#proxy-list-support
 #        - ./proxies.json:/datastore/proxies.json
