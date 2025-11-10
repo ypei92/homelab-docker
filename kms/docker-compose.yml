@@ -6,8 +6,8 @@ services:
     env_file: .env
     networks:
       - traefik_proxy
-    ports:
-      - ${SERVER_PORT}:1688
+    # ports:
+    #   - ${SERVER_PORT}:1688
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"

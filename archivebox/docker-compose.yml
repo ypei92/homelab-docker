@@ -13,21 +13,31 @@
 services:
     archivebox:
         image: archivebox/archivebox:latest
-        container_name: archivebox
+        container_name: ${CONTAINER_NAME}
         restart: unless-stopped
         env_file: /home/ypei/libraries/docker/archivebox/.env
-        ports:
-            - ${WEBUI_PORT}:8000
+        networks:
+            - traefik_proxy
+        # ports:
+        #     - ${WEBUI_PORT}:8000
         volumes:
             - ${SMB_PATH}:/data
             - /home/ypei/libraries/docker/archivebox/chrome_profile/personas/Default:/data/personas/Default
         labels:
             - "com.centurylinklabs.watchtower.enable=true"
+            - "traefik.enable=true"
+            - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=8000"
+            - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+            - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+            - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+            - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+            - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
+
         environment:
             - ADMIN_USERNAME=${USERNAME}        # creates an admin user on first run with the given user/pass combo
             - ADMIN_PASSWORD=${PASSWORD}
             - ALLOWED_HOSTS=*                   # set this to the hostname(s) you're going to serve the site from!
-            - CSRF_TRUSTED_ORIGINS=http://192.168.50.60:${WEBUI_PORT}  # you MUST set this to the server's URL for admin login
+            - CSRF_TRUSTED_ORIGINS=https://archivebox.nerdytechie.net  # http://192.168.50.60:${WEBUI_PORT}
             - PUBLIC_INDEX=False                # set to False to prevent anonymous users from viewing snapshot list
             - PUBLIC_SNAPSHOTS=False            # set to False to prevent anonymous users from viewing snapshot content
             - PUBLIC_ADD_VIEW=False             # set to True to allow anonymous users to submit new URLs to archive
@@ -233,3 +243,7 @@ services:
 #             allow_other: 'true'
 #             vfs_cache_mode: full
 #             poll_interval: 0
+
+networks:
+  traefik_proxy:
+    external: true
