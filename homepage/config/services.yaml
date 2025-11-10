@@ -286,6 +286,11 @@
     - KMS Server:
         icon: microsoft-to-do.svg
         description: Local Microsoft KMS Server
+    - MeTube:
+        icon: metube.svg
+        href: "{{HOMEPAGE_VAR_METUBE_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_METUBE_URL}}"
+        description: Tube Archiver
     - ArchiveBox:
         icon: archivebox.png
         siteMonitor: "{{HOMEPAGE_VAR_ARCHIVEBOX_URL}}"
