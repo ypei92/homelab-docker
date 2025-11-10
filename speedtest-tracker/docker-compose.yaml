@@ -13,9 +13,9 @@ services:
       - SPEEDTEST_SCHEDULE=0 */3 * * *  # https://crontab.guru
     networks:
       - traefik_proxy
-    ports:
-      - ${HTTP_PORT}:80
-      - ${HTTPS_PORT}:443
+    # ports:
+    #   - ${HTTP_PORT}:80
+    #   - ${HTTPS_PORT}:443
     volumes:
       - /home/ypei/libraries/docker/speedtest-tracker/data:/config
       - /home/ypei/libraries/docker/speedtest-tracker/ssl-keys:/config/keys

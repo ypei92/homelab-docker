@@ -10,18 +10,20 @@ services:
       - /dev/net/tun:/dev/net/tun
     volumes:
       - /home/ypei/libraries/docker/gluetun/auth:/gluetun/auth
+    networks:
+      - traefik_proxy
     ports:
       # gluetun control server
-      - ${CONTROL_PORT}:8000
+      # - ${CONTROL_PORT}:8000
       # qBittorrent
-      - ${QB_WEBUI_PORT}:${QB_WEBUI_PORT}
+      # - ${QB_WEBUI_PORT}:${QB_WEBUI_PORT}
       - ${QB_LISTEN_PORT}:${QB_LISTEN_PORT}
       - ${QB_LISTEN_PORT}:${QB_LISTEN_PORT}/udp
       # aria-pro
-      - ${ARIA2_RPC_PORT}:6800
+      # - ${ARIA2_RPC_PORT}:6800
       - ${ARIA2_LISTEN_PORT}:6888
       - ${ARIA2_LISTEN_PORT}:6888/udp
-      - ${ARIANG_PORT}:6880
+      # - ${ARIANG_PORT}:6880
     environment:
       - FIREWALL_OUTBOUND_SUBNETS=${DOCKER_HOST_SUBNET}
       - DNS_PLAINTEXT_ADDRESS=${LOCAL_DNS}
@@ -33,6 +35,40 @@ services:
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
       - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
       - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+    labels:
+      - "traefik.enable=true"
+
+      # --- Gluetun control server Router ---
+      - "traefik.http.services.gluetun-control.loadbalancer.server.port=8000"
+      - "traefik.http.routers.gluetun-control-secure.entrypoints=https"
+      - "traefik.http.routers.gluetun-control-secure.rule=Host(`gluetun-control.${DOMAIN}`)"
+      - "traefik.http.routers.gluetun-control-secure.tls=true"
+      - "traefik.http.routers.gluetun-control-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.gluetun-control-secure.service=gluetun-control"
+
+      # --- qBittorrent Router ---
+      - "traefik.http.services.qbittorrent.loadbalancer.server.port=${QB_WEBUI_PORT}"
+      - "traefik.http.routers.qbittorrent-secure.entrypoints=https"
+      - "traefik.http.routers.qbittorrent-secure.rule=Host(`qbittorrent.${DOMAIN}`)"
+      - "traefik.http.routers.qbittorrent-secure.tls=true"
+      - "traefik.http.routers.qbittorrent-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.qbittorrent-secure.service=qbittorrent"
+
+      # --- Ariang Web UI Router ---
+      - "traefik.http.services.ariang.loadbalancer.server.port=6880"
+      - "traefik.http.routers.ariang-secure.entrypoints=https"
+      - "traefik.http.routers.ariang-secure.rule=Host(`aria2.${DOMAIN}`)"
+      - "traefik.http.routers.ariang-secure.tls=true"
+      - "traefik.http.routers.ariang-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.ariang-secure.service=ariang"
+
+      # --- Aria2 RPC Router ---
+      - "traefik.http.services.aria2-pro.loadbalancer.server.port=6800"
+      - "traefik.http.routers.aria2-pro-secure.entrypoints=https"
+      - "traefik.http.routers.aria2-pro-secure.rule=Host(`aria2-rpc.${DOMAIN}`)"
+      - "traefik.http.routers.aria2-pro-secure.tls=true"
+      - "traefik.http.routers.aria2-pro-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.aria2-pro-secure.service=aria2-pro"
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -108,3 +144,7 @@ services:
         max-size: 1m  # limit log size to 1MB
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_proxy:
+    external: true
