@@ -1,7 +1,7 @@
 services:
   dls:
     image: collinwebdesigns/fastapi-dls:latest
-    container_name: fastapi-dls
+    container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     env_file: .env
     environment:
@@ -11,6 +11,8 @@ services:
       DATABASE: sqlite:////app/database/db.sqlite
       TZ: America/Los_Angeles
       DEBUG: false
+    networks:
+      - traefik_proxy
     ports:
       - ${DLS_PORT}:443  # internal port is always 443
     volumes:
@@ -18,3 +20,15 @@ services:
       - /home/ypei/libraries/docker/fastapi-dls/db:/app/database
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      # Not working properly though
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=443"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
+
+networks:
+  traefik_proxy:
+    external: true
