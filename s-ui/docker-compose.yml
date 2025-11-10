@@ -1,0 +1,29 @@
+services:
+  s-ui:
+    image: alireza7/s-ui:latest
+    container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - traefik_proxy
+    ports:
+      # - ${PANEL_PORT}:2095
+      - ${SUBSCRIPTION_PORT}:2096
+      - ${PROXY_HTTP_PORT}:443
+      - ${PROXY_HTTPS_PORT}:80
+    volumes:
+      - ${LOCAL_PATH}/s-ui/db/:/app/db/
+      - ${LOCAL_PATH}/s-ui/cert/:/root/cert/
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=2095"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`amd1-${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
+
+networks:
+  traefik_proxy:
+    external: true
