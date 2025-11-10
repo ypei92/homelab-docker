@@ -11,9 +11,9 @@ services:
       - /dev/dri/renderD128:/dev/dri/renderD128
     networks:
       - traefik_proxy
-    ports:
-      - ${HTTP_PORT}:8096  # http
-      - ${HTTPS_PORT}:8920  # https with certificate
+    # ports:
+    #   - ${HTTP_PORT}:8096  # http
+    #   - ${HTTPS_PORT}:8920  # https with certificate
     volumes:
       - /home/ypei/libraries/docker/jellyfin/config:/config
       - /home/ypei/libraries/docker/jellyfin/cache:/cache

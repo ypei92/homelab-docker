@@ -8,8 +8,10 @@ services:
       - 107  # Group ID of UHD630 by running stat -c '%g' /dev/dri/renderD128
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
-    ports:
-      - ${ND_WEBUI_PORT}:4533
+    networks:
+      - traefik_proxy
+    # ports:
+    #   - ${ND_WEBUI_PORT}:4533
     environment:
       ND_SCANSCHEDULE: 1m
       ND_SESSIONTIMEOUT: 24h
@@ -27,16 +29,36 @@ services:
       - /mnt/pve-white/music:/music:ro
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
+      - "traefik.http.routers.navidrome-secure.entrypoints=https"
+      - "traefik.http.routers.navidrome-secure.rule=Host(`navidrome.${DOMAIN}`)"
+      - "traefik.http.routers.navidrome-secure.tls=true"
+      - "traefik.http.routers.navidrome-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.navidrome-secure.service=navidrome"
 
   music-tag:
     image: xhongc/music_tag_web:latest
     container_name: music-tag-web
     restart: unless-stopped
     env_file: .env
-    ports:
-      - ${MUSIC_TAG_PORT}:8002
+    networks:
+      - traefik_proxy
+    # ports:
+    #   - ${MUSIC_TAG_PORT}:8002
     volumes:
       - /mnt/pve-white/music:/app/media:rw
       - /home/ypei/libraries/docker/navidrome/config/music-tag-web:/app/data
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.music-tag.loadbalancer.server.port=8002"
+      - "traefik.http.routers.music-tag-secure.entrypoints=https"
+      - "traefik.http.routers.music-tag-secure.rule=Host(`music-tag.${DOMAIN}`)"
+      - "traefik.http.routers.music-tag-secure.tls=true"
+      - "traefik.http.routers.music-tag-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.music-tag-secure.service=music-tag"
+
+networks:
+  traefik_proxy:
+    external: true
