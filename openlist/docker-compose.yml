@@ -1,56 +1,31 @@
 services:
   openlist:
     image: openlistteam/openlist:latest
-    container_name: openlist
+    container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     env_file: .env
     user: '${PUID}:${PGID}'
     volumes:
       - /home/ypei/libraries/docker/openlist/data:/opt/openlist/data
       - /mnt/pve-white/shared/downloads/aria2/openlist_tmp:/opt/openlist/data/temp/aria2
-    ports:
-      - ${PORT}:5244
+    networks:
+      - traefik_proxy
+    # ports:
+    #   - ${PORT}:5244
     environment:
       - UMASK=022
       - TZ=America/Los_Angeles
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=5244"
+      # - "traefik.http.services.openlist.loadbalancer.serverstransport=openlist-transport@file"  # Not needed for now
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
 
-  # # Aria2 下载器及webui | Aria2 Downloader & WebUI
-  # aria2-pro:
-  #   image: p3terx/aria2-pro
-  #   container_name: aria2-pro-openlist
-  #   restart: unless-stopped
-  #   ports:
-  #     - '16800:6800'
-  #     - '16888:6888'
-  #     - '16888:6888/udp'
-  #   volumes:
-  #     - /home/ypei/libraries/docker/openlist/aria2-pro:/config
-  #     - /home/ypei/libraries/docker/openlist/aria2-download:/downloads
-  #     - /mnt/pve-white/shared/downloads/aria2/openlist_tmp:/opt/openlist/data/temp/aria2
-  #   environment:
-  #     - 'PUID=1000'
-  #     - 'PGID=10000'
-  #     - 'TZ=TZ=America/Los_Angeles'
-  #     - 'UMASK_SET=022'
-  #     - 'RPC_SECRET=odroid'
-  #     - 'RPC_PORT=6800'
-  #     - 'LISTEN_PORT=6888'
-  # ariang:
-  #   image: p3terx/ariang
-  #   container_name: ariang-openlist
-  #   command: --port 6880
-  #   ports:
-  #     - 16880:6880
-  #   restart: unless-stopped
-  #   environment:
-  #     - 'PUID=1000'
-  #     - 'PGID=10000'
-  #     - 'TZ=America/Los_Angeles'
-  #   logging:
-  #     driver: json-file
-  #     options:
-  #       max-size: 1m
-  #   depends_on:
-  #     - aria2-pro
+networks:
+  traefik_proxy:
+    external: true

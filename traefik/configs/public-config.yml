@@ -47,6 +47,6 @@ http:
     insecure-transport:
       insecureSkipVerify: true
 
-    # Pending test
-    openlist-transport:
-      maxIdleConnsPerHost: 200
+    # # openlist upload fix (not used for now)
+    # openlist-transport:
+    #   maxIdleConnsPerHost: 200
