@@ -1,17 +1,30 @@
 services:
   baidunetdisk-crossover-vnc:
     image: johnshine/baidunetdisk-crossover-vnc:latest
-    container_name: baiduyun
+    container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     env_file: .env
     user: ${PUID}:${PGID}
+    networks:
+      - traefik_proxy
     ports:
-      - ${WEBUI_PORT}:6080
+      # - ${WEBUI_PORT}:6080
       - ${VNC_PORT}:5901
     volumes:
       - /mnt/pve-white/shared/downloads/baiduyun:/home/baidu/baidunetdiskdownload
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=6080"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`${CONTAINER_NAME}.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
+
+networks:
+  traefik_proxy:
+    external: true
 
 ## This newer but freeze frequently, try later
 #services:
