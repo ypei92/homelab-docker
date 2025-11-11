@@ -1,7 +1,7 @@
 services:
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy:latest
-    container_name: wireguard
+    container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     env_file: .env
     environment:
@@ -15,7 +15,7 @@ services:
       - WG_PORT=${LISTEN_PORT} # UDP port WG listen to inside the container
       # - PORT=51821  # WebUI
       # - WG_CONFIG_PORT=92820  # For home assistant
-      - WG_DEFAULT_ADDRESS=10.8.0.x
+      - WG_DEFAULT_ADDRESS=10.7.0.x
       # - WG_DEFAULT_DNS=1.1.1.1
       # - WG_MTU=1420
       # - WG_ALLOWED_IPS=192.168.15.0/24, 10.0.1.0/24
@@ -28,10 +28,12 @@ services:
       # - UI_ENABLE_SORT_CLIENTS=true
       # - WG_ENABLE_EXPIRES_TIME=true
     volumes:
-      - /home/ubuntu/libraries/docker/wireguard/etc_wireguard:/etc/wireguard
+      - ${LOCAL_PATH}/wireguard/etc_wireguard:/etc/wireguard
+    networks:
+      - traefik_proxy
     ports:
       - ${LISTEN_PORT}:${LISTEN_PORT}/udp  # default: 51820
-      - ${WEBUI_PORT}:51821/tcp
+      # - ${WEBUI_PORT}:51821/tcp
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -40,8 +42,14 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=51821"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`ampere-wg-web.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
 
 networks:
-  default:
+  traefik_proxy:
     external: true
-    name: npm
