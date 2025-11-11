@@ -6,10 +6,9 @@ services:
     env_file: .env
     command: valkey-server --save 30 1 --loglevel warning
     networks:
-      default:
-        ipv4_address: ${INTERNAL_IP_REDIS}
+      - searxng_internal
     volumes:
-      - /home/ubuntu/libraries/docker/searxng/valkey-data2:/data
+      - ${LOCAL_PATH}/searxng/valkey-data2:/data
     logging:
       driver: "json-file"
       options:
@@ -24,12 +23,12 @@ services:
     restart: unless-stopped
     env_file: .env
     networks:
-      default:
-        ipv4_address: ${INTERNAL_IP_SEARXNG}
-    ports:
-      - ${EXTERNAL_PORT}:8080
+      - searxng_internal
+      - traefik_proxy
+    # ports:
+    #   - ${EXTERNAL_PORT}:8080
     volumes:
-      - /home/ubuntu/libraries/docker/searxng/searxng:/etc/searxng:rw
+      - ${LOCAL_PATH}/searxng/searxng:/etc/searxng:rw
     environment:
       - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
       - UWSGI_WORKERS=${SEARXNG_UWSGI_WORKERS:-4}
@@ -41,8 +40,17 @@ services:
         max-file: "1"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_proxy"  # force traefik to use traefik_proxy
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=8080"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`search.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=${CONTAINER_NAME}"
 
 networks:
-  default:
+  traefik_proxy:
     external: true
-    name: npm
+  searxng_internal:
+    external: true
