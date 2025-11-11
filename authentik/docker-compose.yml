@@ -1,0 +1,87 @@
+services:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
+    container_name: authentik_postgresql
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${PG_DB:-authentik}
+      POSTGRES_PASSWORD: ${PG_PASS:?database password required}
+      POSTGRES_USER: ${PG_USER:-authentik}
+    healthcheck:
+      interval: 30s
+      retries: 5
+      start_period: 20s
+      test:
+        - CMD-SHELL
+        - pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+      timeout: 5s
+    volumes:
+      - ${LOCAL_PATH}/authentik/db:/var/lib/postgresql/data
+    networks:
+      - authentik_internal
+
+  server:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.10.1}
+    container_name: authentik_server
+    restart: unless-stopped
+    command: server
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+    # ports:
+    #   - ${COMPOSE_PORT_HTTP:-9000}:9000
+    #   - ${COMPOSE_PORT_HTTPS:-9443}:9443
+    volumes:
+      - ${LOCAL_PATH}/authentik/media:/media
+      - ${LOCAL_PATH}/authentik/custom-templates:/templates
+    networks:
+      - authentik_internal
+      - traefik_proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_proxy"  # force traefik to use traefik_proxy
+      - "traefik.http.services.authentik.loadbalancer.server.port=9000"
+      - "traefik.http.routers.authentik-secure.entrypoints=https"
+      - "traefik.http.routers.authentik-secure.rule=Host(`ampere-authentik.${DOMAIN}`)"
+      - "traefik.http.routers.authentik-secure.tls=true"
+      - "traefik.http.routers.authentik-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.authentik-secure.service=authentik"
+
+  worker:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.10.1}
+    container_name: authentik_worker
+    restart: unless-stopped
+    user: root
+    command: worker
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${LOCAL_PATH}/authentik/media:/media
+      - ${LOCAL_PATH}/authentik/certs:/certs
+      - ${LOCAL_PATH}/authentik/custom-templates:/templates
+    networks:
+      - authentik_internal
+
+networks:
+  traefik_proxy:
+    external: true
+  authentik_internal:
+    external: true
