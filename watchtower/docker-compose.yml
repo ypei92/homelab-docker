@@ -12,6 +12,7 @@ services:
       WATCHTOWER_REMOVE_VOLUMES: true
       WATCHTOWER_HTTP_API_TOKEN: ${WATCHTOWER_HTTP_API_TOKEN}
       WATCHTOWER_SCHEDULE: "0 0 1 * * 4"
+      DOCKER_API_VERSION: "1.44"
     networks:
       - traefik_proxy
     # ports:

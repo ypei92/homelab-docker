@@ -31,10 +31,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"
-      - "traefik.http.routers.navidrome-secure.entrypoints=https"
       - "traefik.http.routers.navidrome-secure.rule=Host(`navidrome.${DOMAIN}`)"
-      - "traefik.http.routers.navidrome-secure.tls=true"
-      - "traefik.http.routers.navidrome-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.navidrome-secure.service=navidrome"
 
   music-tag:
@@ -53,10 +50,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
       - "traefik.http.services.music-tag.loadbalancer.server.port=8002"
-      - "traefik.http.routers.music-tag-secure.entrypoints=https"
       - "traefik.http.routers.music-tag-secure.rule=Host(`music-tag.${DOMAIN}`)"
-      - "traefik.http.routers.music-tag-secure.tls=true"
-      - "traefik.http.routers.music-tag-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.music-tag-secure.service=music-tag"
 
 networks:

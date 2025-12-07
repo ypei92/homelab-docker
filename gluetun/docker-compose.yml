@@ -40,34 +40,22 @@ services:
 
       # --- Gluetun control server Router ---
       - "traefik.http.services.gluetun-control.loadbalancer.server.port=8000"
-      - "traefik.http.routers.gluetun-control-secure.entrypoints=https"
       - "traefik.http.routers.gluetun-control-secure.rule=Host(`gluetun-control.${DOMAIN}`)"
-      - "traefik.http.routers.gluetun-control-secure.tls=true"
-      - "traefik.http.routers.gluetun-control-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.gluetun-control-secure.service=gluetun-control"
 
       # --- qBittorrent Router ---
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=${QB_WEBUI_PORT}"
-      - "traefik.http.routers.qbittorrent-secure.entrypoints=https"
       - "traefik.http.routers.qbittorrent-secure.rule=Host(`qbittorrent.${DOMAIN}`)"
-      - "traefik.http.routers.qbittorrent-secure.tls=true"
-      - "traefik.http.routers.qbittorrent-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.qbittorrent-secure.service=qbittorrent"
 
       # --- Ariang Web UI Router ---
       - "traefik.http.services.ariang.loadbalancer.server.port=6880"
-      - "traefik.http.routers.ariang-secure.entrypoints=https"
       - "traefik.http.routers.ariang-secure.rule=Host(`aria2.${DOMAIN}`)"
-      - "traefik.http.routers.ariang-secure.tls=true"
-      - "traefik.http.routers.ariang-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.ariang-secure.service=ariang"
 
       # --- Aria2 RPC Router ---
       - "traefik.http.services.aria2-pro.loadbalancer.server.port=6800"
-      - "traefik.http.routers.aria2-pro-secure.entrypoints=https"
       - "traefik.http.routers.aria2-pro-secure.rule=Host(`aria2-rpc.${DOMAIN}`)"
-      - "traefik.http.routers.aria2-pro-secure.tls=true"
-      - "traefik.http.routers.aria2-pro-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.aria2-pro-secure.service=aria2-pro"
 
   qbittorrent:
