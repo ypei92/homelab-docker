@@ -1,0 +1,26 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/Los_Angeles
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/video0:/dev/video0
+    ports:
+      - ${HTTP_PORT}:8096
+      - ${HTTPS_PORT}:8920
+    volumes:
+      - ${LOCAL_PATH}/jellyfin/config:/config
+      - ${LOCAL_PATH}/jellyfin/cache:/cache
+      - /mnt/external_drive/media:/media
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
