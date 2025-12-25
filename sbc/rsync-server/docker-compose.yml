@@ -1,0 +1,17 @@
+services:
+  rsync:
+    image: ypei92/rsync-server:arm64-latest
+    container_name: rsync-server
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}              # User ID to run as (default: 1000)
+      - PGID=${PGID}              # Group ID to run as (default: 1000)
+      - TZ=America/Los_Angeles    # Timezone
+    ports:
+      - ${PORT}:873
+    volumes:
+      - /mnt/external_drive/backup:/data
+      - ${LOCAL_PATH}/rsync-server/rsyncd.conf:/etc/rsyncd.conf:ro
+      - ${LOCAL_PATH}/rsync-server/rsyncd.secrets:/etc/rsyncd.secrets:ro
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
