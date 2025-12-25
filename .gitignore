@@ -13,6 +13,7 @@
 *tokens
 *test_field
 *.tar.gz
+*.secrets
 
 # vim
 *.sw*
@@ -35,3 +36,4 @@ traefik/acme.json
 traefik/cf-token
 traefik/configs/internal-config.yml
 portainer
+nextcloud_config.php
