@@ -10,7 +10,7 @@ services:
     #   - ${HTTP_PORT}:8000
     #   - ${HTTPS_PORT}:9443
     volumes:
-      - /home/ubuntu/libraries/docker/portainer/data:/data
+      - ${LOCAL_PATH}/portainer/data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
