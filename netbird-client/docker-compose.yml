@@ -1,0 +1,19 @@
+# This docker is not in use. Direct installation is preferred 
+services:
+  netbird:
+    image: netbirdio/netbird:latest
+    container_name: netbird-client
+    restart: unless-stopped
+    env_file: .env
+    # network_mode: host
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - NB_MANAGEMENT_URL=${MGMT_SERVER}
+      - NB_SETUP_KEY=${SETUP_KEY}
+      - NB_HOSTNAME=${HOSTNAME}
+      - NB_ALLOW_SERVER_SSH=true
+    volumes:
+      - ${LOCAL_PATH}/netbird-client/data:/var/lib/netbird
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
