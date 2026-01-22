@@ -1,3 +1,4 @@
+# traefik verison
 services:
   rclone:
     image: rclone/rclone:latest
@@ -12,14 +13,14 @@ services:
     networks:
       - traefik_proxy
     # ports:
-    #  - {PORT}:5572
+    #  - ${PORT}:5572
     command: >
       rcd
       --rc-web-gui
       --rc-web-gui-no-open-browser
       --rc-addr :5572
-      --rc-user ${USER}
-      --rc-pass ${PASSWORD}
+      --rc-user ${RC_USER}
+      --rc-pass ${RC_PASSWORD}
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
@@ -30,3 +31,27 @@ services:
 networks:
   traefik_proxy:
     external: true
+
+# no traefik verison
+services:
+  rclone:
+    image: rclone/rclone:latest
+    container_name: rclone
+    restart: unless-stopped
+    env_file: .env
+    user: ${PUID}:${PGID}
+    volumes:
+      - ${LOCAL_PATH}/rclone/config:/config/rclone
+      - ${LOCAL_PATH}/rclone/cache:/.cache
+      - /mnt/external_drive/backup:/data
+    ports:
+      - ${PORT}:5572
+    command: >
+      rcd
+      --rc-web-gui
+      --rc-web-gui-no-open-browser
+      --rc-addr :5572
+      --rc-user ${RC_USER}
+      --rc-pass ${RC_PASSWORD}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
