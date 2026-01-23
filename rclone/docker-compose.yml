@@ -1,4 +1,4 @@
-# traefik verison
+# traefik gui verison
 services:
   rclone:
     image: rclone/rclone:latest
@@ -32,7 +32,7 @@ networks:
   traefik_proxy:
     external: true
 
-# no traefik verison
+# no traefik gui verison
 services:
   rclone:
     image: rclone/rclone:latest
@@ -53,5 +53,34 @@ services:
       --rc-addr :5572
       --rc-user ${RC_USER}
       --rc-pass ${RC_PASSWORD}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+# local mount (most useful)
+services:
+  rclone:
+    image: rclone/rclone:latest
+    container_name: rclone
+    restart: unless-stopped
+    env_file: .env
+    cap_add:
+      - SYS_ADMIN  # need root
+    devices:
+      - /dev/fuse
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - ${LOCAL_PATH}/rclone/config:/config/rclone
+      - ${LOCAL_PATH}/rclone/cache:/.cache
+      - /mnt/external_drive:/mnt/external_drive:ro
+      - /mnt/onedrive/${ONEDRIVE_NAME}:/data/mount:shared
+    command: >
+      mount "${ONEDRIVE_NAME}:" /data/mount
+      --allow-other
+      --allow-non-empty
+      --vfs-cache-mode full
+      --vfs-cache-max-size 10G
+      --dir-cache-time 72h
+      --log-level INFO
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
