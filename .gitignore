@@ -35,5 +35,6 @@ rclone/config
 traefik/acme.json
 traefik/cf-token
 traefik/configs/internal-config.yml
+cloud/traefik/configs/internal-config.yml
 portainer
 nextcloud_config.php

@@ -1,0 +1,43 @@
+services:
+  traefik:
+    image: traefik:latest
+    container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
+    env_file: .env
+    security_opt:
+      - no-new-privileges:true # helps to increase security
+    secrets:
+      - cf-token # the secret at the top of this file
+    networks:
+      - traefik_proxy
+    ports:  # Traefik also support customized ports
+      - 80:80
+      - 443:443
+    environment:
+      - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
+      - CF_API_EMAIL=${CF_API_EMAIL} # Cloudflare email
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf-token # see https://doc.traefik.io/traefik/https/acme/#providers
+    volumes:  # path is ubuntu not ypei
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${LOCAL_PATH}/traefik/traefik.yml:/traefik.yml:ro
+      - ${LOCAL_PATH}/traefik/configs:/etc/traefik/configs:ro  # check .yaml or .yml per failure
+      - ${LOCAL_PATH}/traefik/acme.json:/acme.json
+      - ${LOCAL_PATH}/traefik/logs:/var/log/traefik
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.rule=Host(`ampere-traefik.${DOMAIN}`)"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.service=api@internal"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.middlewares=traefik-auth"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.domains[0].main=${DOMAIN}"
+      - "traefik.http.routers.${CONTAINER_NAME}-secure.tls.domains[0].sans=*.${DOMAIN}"
+
+secrets:
+  cf-token:
+    file: ./cf-token
+
+networks:
+  traefik_proxy:
+    external: true
