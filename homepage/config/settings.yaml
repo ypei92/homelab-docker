@@ -33,7 +33,7 @@ layout:
     header: true
     style: row
     columns: 4
-  Networking:
+  Networking & Security:
     header: true
     style: row
     columns: 4

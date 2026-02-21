@@ -139,7 +139,7 @@
             token: "{{HOMEPAGE_VAR_NAVIDROME_TOKEN}}"
             salt: "{{HOMEPAGE_VAR_NAVIDROME_SALT}}"
 
-- Networking:
+- Networking & Security:
     - iStoreOS:
         icon: openwrt.svg
         href: "{{HOMEPAGE_VAR_OPENWRT_URL}}"
@@ -226,7 +226,17 @@
           url: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_URL}}"
           password: "{{HOMEPAGE_VAR_WIREGUARD_AMD1_PASSWORD}}"
           threshold: 2 # optional
-
+    - Authentik:
+        icon: authentik.svg
+        href: "{{HOMEPAGE_VAR_AUTHENTIK_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_AUTHENTIK_URL}}"
+        description: Open-source IdP and SSO solution
+        widget:
+          type: authentik
+          url: "{{HOMEPAGE_VAR_AUTHENTIK_URL}}"
+          key: "{{HOMEPAGE_VAR_AUTHENTIK_TOKEN}}"
+          version: 2 # optional
+    
 - Download:
     - qBittorrent:
         icon: qbittorrent.svg
@@ -304,3 +314,4 @@
     - UnblockNetEaseMusic:
         icon: si-neteasecloudmusic-#D43C33
         description: Unblock NetEase Music Service
+    
