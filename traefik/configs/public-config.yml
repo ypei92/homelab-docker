@@ -23,7 +23,7 @@ http:
         sourceRange:
           - "10.0.0.0/8"
           - "192.168.0.0/16"
-        # - "100.x.x.x/32"  # VPS proxy for netbird
+        # - "100.x.x.x/32"  # Netbird IP no needed as debain-networking does the routing
 
     # --- Chain to combine security headers and whitelist ---
     secured:
@@ -46,7 +46,3 @@ http:
     # For self-signed cert from dsm, pve
     insecure-transport:
       insecureSkipVerify: true
-
-    # # openlist upload fix (not used for now)
-    # openlist-transport:
-    #   maxIdleConnsPerHost: 200
