@@ -1,0 +1,67 @@
+services:
+  booklore-server:
+    image: booklore/booklore:latest
+    container_name: booklore-server
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - USER_ID=${APP_USER_ID}
+      - GROUP_ID=${APP_GROUP_ID}
+      - TZ=${TZ}
+      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_USERNAME=${DB_USER}
+      - DATABASE_PASSWORD=${DB_PASSWORD}
+    networks:
+      - traefik_proxy
+      - booklore_internal
+    depends_on:
+      booklore-mariadb:
+        condition: service_healthy
+    # ports:
+    #   - ${PORT}:6060
+    volumes:
+      - ${LOCAL_PATH}/booklore/data:/app/data
+      - /mnt/pve-white/book:/books
+      - /mnt/pve-white/book/bookdrop:/bookdrop
+    healthcheck:
+      test: wget -q -O - http://localhost:6060/api/v1/healthcheck
+      interval: 60s
+      retries: 5
+      start_period: 60s
+      timeout: 10s
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_proxy"  # force traefik to use traefik_proxy
+      - "traefik.http.services.booklore-server.loadbalancer.server.port=6060"
+      - "traefik.http.routers.booklore-server-secure.rule=Host(`booklore.${DOMAIN}`)"
+      - "traefik.http.routers.booklore-server-secure.service=booklore-server"
+
+  booklore-mariadb:
+    image: lscr.io/linuxserver/mariadb:11.4.5
+    container_name: booklore-mariadb
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - PUID=${DB_USER_ID}
+      - PGID=${DB_GROUP_ID}
+      - TZ=${TZ}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ${LOCAL_PATH}/booklore/mariadb/config:/config
+    networks:
+      - booklore_internal
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+networks:
+  traefik_proxy:
+    external: true
+  booklore_internal:
+    external: true
