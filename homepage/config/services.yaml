@@ -138,6 +138,16 @@
             user: "{{HOMEPAGE_VAR_NAVIDROME_USER}}"
             token: "{{HOMEPAGE_VAR_NAVIDROME_TOKEN}}"
             salt: "{{HOMEPAGE_VAR_NAVIDROME_SALT}}"
+    - Booklore:
+        icon: booklore.svg
+        href: "{{HOMEPAGE_VAR_BOOKLORE_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_BOOKLORE_URL}}"
+        description: Book Management
+        widget:
+            type: booklore
+            url: "{{HOMEPAGE_VAR_BOOKLORE_URL}}"
+            username: "{{HOMEPAGE_VAR_BOOKLORE_USERNAME}}"
+            password: "{{HOMEPAGE_VAR_BOOKLORE_PASSWORD}}"
 
 - Networking & Security:
     - iStoreOS:
