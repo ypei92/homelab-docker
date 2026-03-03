@@ -21,8 +21,8 @@ services:
     #   - ${PORT}:6060
     volumes:
       - ${LOCAL_PATH}/booklore/data:/app/data
-      - /mnt/pve-white/book:/books
-      - /mnt/pve-white/book/bookdrop:/bookdrop
+      - /mnt/pve-white/book/booklore/books:/books
+      - /mnt/pve-white/book/booklore/bookdrop:/bookdrop
     healthcheck:
       test: wget -q -O - http://localhost:6060/api/v1/healthcheck
       interval: 60s
