@@ -1,6 +1,6 @@
 services:
   booklore-server:
-    image: booklore/booklore:latest
+    image: ghcr.io/booklore-app/booklore:latest
     container_name: booklore-server
     restart: unless-stopped
     env_file: .env
