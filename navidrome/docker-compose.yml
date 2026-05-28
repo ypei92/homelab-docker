@@ -3,7 +3,6 @@ services:
     image: deluan/navidrome:latest
     container_name: navidrome
     restart: unless-stopped
-    env_file: .env
     group_add:
       - 107  # Group ID of UHD630 by running stat -c '%g' /dev/dri/renderD128
     devices:
@@ -38,7 +37,6 @@ services:
     image: xhongc/music_tag_web:latest
     container_name: music-tag-web
     restart: unless-stopped
-    env_file: .env
     networks:
       - traefik_proxy
     # ports:

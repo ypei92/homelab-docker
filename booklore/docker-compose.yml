@@ -3,7 +3,6 @@ services:
     image: ghcr.io/booklore-app/booklore:latest
     container_name: booklore-server
     restart: unless-stopped
-    env_file: .env
     environment:
       - USER_ID=${APP_USER_ID}
       - GROUP_ID=${APP_GROUP_ID}
@@ -41,7 +40,6 @@ services:
     image: lscr.io/linuxserver/mariadb:11.4.5
     container_name: booklore-mariadb
     restart: unless-stopped
-    env_file: .env
     environment:
       - PUID=${DB_USER_ID}
       - PGID=${DB_GROUP_ID}

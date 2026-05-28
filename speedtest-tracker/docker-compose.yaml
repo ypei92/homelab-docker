@@ -3,7 +3,6 @@ services:
     image: lscr.io/linuxserver/speedtest-tracker:latest
     container_name: ${CONTAINER_NAME}
     restart: unless-stopped
-    env_file: .env
     environment:
       - PUID=$PUID
       - PGID=$PGID

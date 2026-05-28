@@ -3,7 +3,6 @@ services:
     image: containrrr/watchtower:latest
     container_name: watchtower
     restart: unless-stopped
-    env_file: .env
     environment:
       TZ: America/Los_Angeles
       WATCHTOWER_LABEL_ENABLE: true

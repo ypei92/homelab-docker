@@ -6,7 +6,6 @@ services:
     image: p3terx/aria2-pro:latest
     container_name: aria2-pro
     restart: unless-stopped
-    env_file: .env
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -40,7 +39,6 @@ services:
     image: p3terx/ariang:latest
     container_name: ariang
     restart: unless-stopped
-    env_file: .env
     # network_mode: "container:gluetun"  # in case use Gluetun, comment ports
     ports:
       - ${ARIANG_PORT}:6880

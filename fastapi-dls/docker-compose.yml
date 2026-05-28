@@ -3,7 +3,6 @@ services:
     image: collinwebdesigns/fastapi-dls:latest
     container_name: ${CONTAINER_NAME}
     restart: unless-stopped
-    env_file: .env
     environment:
       DLS_URL: ${DLS_URL} # REQUIRED, change to your ip or hostname
       DLS_PORT: ${DLS_PORT}

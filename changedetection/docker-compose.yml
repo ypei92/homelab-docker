@@ -4,7 +4,6 @@ services:
     container_name: ${CONTAINER_NAME}
     hostname: changedetection
     restart: unless-stopped
-    env_file: .env
     volumes:
       - /home/ypei/libraries/docker/changedetection/data:/datastore
     networks:

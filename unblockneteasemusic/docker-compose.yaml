@@ -3,7 +3,6 @@ services:
     image: pan93412/unblock-netease-music-enhanced:latest
     container_name: unblockneteasemusic
     restart: unless-stopped
-    env_file: .env
     environment:
       - ENABLE_FLAC=true
       - ENABLE_LOCAL_VIP=true

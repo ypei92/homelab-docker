@@ -4,7 +4,6 @@ services:
     image: rclone/rclone:latest
     container_name: ${CONTAINER_NAME}
     restart: unless-stopped
-    env_file: .env
     user: ${PUID}:${PGID}
     volumes:
       - ${LOCAL_PATH}/rclone/config:/config/rclone
@@ -38,7 +37,6 @@ services:
     image: rclone/rclone:latest
     container_name: rclone
     restart: unless-stopped
-    env_file: .env
     user: ${PUID}:${PGID}
     volumes:
       - ${LOCAL_PATH}/rclone/config:/config/rclone
@@ -62,7 +60,6 @@ services:
     image: rclone/rclone:latest
     container_name: rclone
     restart: unless-stopped
-    env_file: .env
     cap_add:
       - SYS_ADMIN  # need root
     devices:

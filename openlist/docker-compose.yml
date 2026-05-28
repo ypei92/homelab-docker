@@ -3,15 +3,14 @@ services:
     image: openlistteam/openlist:latest
     container_name: ${CONTAINER_NAME}
     restart: unless-stopped
-    env_file: .env
     user: '${PUID}:${PGID}'
     volumes:
       - /home/ypei/libraries/docker/openlist/data:/opt/openlist/data
       - /mnt/pve-white/shared/downloads/aria2/openlist_tmp:/opt/openlist/data/temp/aria2
     networks:
       - traefik_proxy
-    # ports:
-    #   - ${PORT}:5244
+    ports:
+      - ${PORT}:5244
     environment:
       - UMASK=022
       - TZ=America/Los_Angeles

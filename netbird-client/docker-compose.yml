@@ -4,7 +4,6 @@ services:
     image: netbirdio/netbird:latest
     container_name: netbird-client
     restart: unless-stopped
-    env_file: .env
     # network_mode: host
     cap_add:
       - NET_ADMIN
