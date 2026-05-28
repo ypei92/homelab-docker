@@ -200,12 +200,13 @@
           key: "{{HOMEPAGE_VAR_CHANGEDETECTION_API_KEY}}"
     - Gluetun:
         icon: gluetun.png
-        siteMonitor: "{{HOMEPAGE_VAR_GLUETUN_URL}}"
+        siteMonitor: "{{HOMEPAGE_VAR_GLUETUN_URL}}/v1/publicip/ip"
         description: VPN Client for Containers
         widget:
           type: gluetun
           url: "{{HOMEPAGE_VAR_GLUETUN_URL}}"
           key: "{{HOMEPAGE_VAR_GLUETUN_API_KEY}}"
+          version: 2
     - WireGuard-Ampere:
         icon: wireguard.svg
         href: "{{HOMEPAGE_VAR_WIREGUARD_AMPERE_URL}}"
