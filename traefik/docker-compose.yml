@@ -23,7 +23,12 @@ services:
       - /home/ypei/libraries/docker/traefik/traefik.yml:/traefik.yml:ro
       - /home/ypei/libraries/docker/traefik/configs:/etc/traefik/configs:ro  # check .yaml or .yml per failure
       - /home/ypei/libraries/docker/traefik/acme.json:/acme.json
-      - /home/ypei/libraries/docker/traefik/logs:/var/log/traefik
+      # - /home/ypei/libraries/docker/traefik/logs:/var/log/traefik
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"

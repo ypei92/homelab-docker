@@ -49,7 +49,12 @@ certificatesResolvers:
 
 log:
   level: "INFO"
-  filePath: "/var/log/traefik/traefik.log"
 
 accessLog:
-  filePath: "/var/log/traefik/access.log"
+  bufferingSize: 100 # Buffers logs to reduce disk I/O
+  filters:
+    # Only log requests that result in errors (400 and 500 level codes)
+    statusCodes:
+      - "400-599"
+    # Keep logs when retries happen
+    retryAttempts: true
